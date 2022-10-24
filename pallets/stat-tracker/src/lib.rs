@@ -1,5 +1,5 @@
 //** About **//
-	// Information regarding the pallet
+	// The basic representation of a movie in the system.
 	
 	
 #![cfg_attr(not(feature = "std"), no_std)]
@@ -61,7 +61,7 @@ pub mod pallet {
 
 
 	//** Storage **//
-	
+
 		#[pallet::storage]
 		#[pallet::getter(fn wallet_reputation)]
 		pub type WalletReputation<T: Config> = 
