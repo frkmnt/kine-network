@@ -48,6 +48,10 @@ frame-benchmarking = { version = "4.0.0-dev", default-features = false, git = "h
 frame-system-benchmarking = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", optional = true , branch = "polkadot-v0.9.30" }
 
 # Local Dependencies
+pallet-moderation = { version = "4.0.0-dev", default-features = false, path = "../pallets/moderation" }
+pallet-movie = { version = "4.0.0-dev", default-features = false, path = "../pallets/movie" }
+# pallet-ranking-list = { version = "4.0.0-dev", default-features = false, path = "../pallets/ranking-list" }
+pallet-stat-tracker = { version = "4.0.0-dev", default-features = false, path = "../pallets/stat-tracker" }
 pallet-template = { version = "4.0.0-dev", default-features = false, path = "../pallets/template" }
 
 [build-dependencies]
@@ -72,6 +76,7 @@ std = [
 	"pallet-randomness-collective-flip/std",
 	"pallet-sudo/std",
 	"pallet-template/std",
+	# "pallet-ranking-list/std",
 	"pallet-timestamp/std",
 	"pallet-transaction-payment-rpc-runtime-api/std",
 	"pallet-transaction-payment/std",

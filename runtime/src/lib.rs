@@ -36,6 +36,7 @@ pub use frame_support::{
 		IdentityFee, Weight,
 	},
 	StorageValue,
+	PalletId,
 };
 pub use frame_system::Call as SystemCall;
 pub use pallet_balances::Call as BalancesCall;
@@ -270,10 +271,79 @@ impl pallet_sudo::Config for Runtime {
 	type RuntimeCall = RuntimeCall;
 }
 
-/// Configure the pallet-template in pallets/template.
+
+/// Custom Pallets
+
 impl pallet_template::Config for Runtime {
 	type RuntimeEvent = RuntimeEvent;
 }
+
+
+parameter_types! {
+	pub const ReportJustificationLimit: u32 = 250;
+	pub const MaxReportsByModerator: u32 = 3;
+	pub const TotalTierOneModerators: u32 = 3;
+	pub const MaxReportsByTier: u32 = 23;
+	pub const MinimumTokensForModeration: u32 = 100;
+	pub const MovieCollateral: u32 = 30;
+	pub const PalletModerationId: PalletId = PalletId(*b"ModStash");
+}
+
+impl pallet_moderation::Config for Runtime{
+    type RuntimeEvent = RuntimeEvent;
+    
+	type JustificationLimit = ReportJustificationLimit;
+    
+	type ContentId = u32;
+	type MaxReportsByModerator = MaxReportsByModerator;
+	type TotalTierOneModerators = TotalTierOneModerators;
+	type MaxReportsByTier = MaxReportsByTier;
+	
+	type MinimumTokensForModeration = MinimumTokensForModeration;
+	type MovieCollateral = MovieCollateral;
+
+	type Currency = Balances;
+	type PalletId = PalletModerationId;
+}
+
+
+parameter_types! {
+	pub const MovieStringLimit: u32 = 50;
+}
+
+impl pallet_movie::Config for Runtime{
+    type RuntimeEvent = RuntimeEvent;
+    type MovieId = u32;
+    type StringLimit = MovieStringLimit;
+}
+
+
+// parameter_types!{
+//     // pub const PalletFestivalId: PalletId = PalletId(*b"kine/fes");
+//     pub const MinFestivalAliveTime: BlockNumber= 1*MINUTES;
+//     pub const PalletRankingListId : PalletId = PalletId(*b"kine/rnk");
+// }
+
+// impl pallet_ranking_list::Config for Runtime {
+//     type RuntimeEvent = RuntimeEvent;
+//     type RankingListId = u32;
+//     type StringLimit = StringLimit;
+//     type PalletId=PalletRankingListId;
+// }
+
+
+parameter_types! {
+	pub const DefaultReputation: u32 = 100;
+}
+
+impl pallet_stat_tracker::Config for Runtime{
+    type RuntimeEvent = RuntimeEvent;
+	type DefaultReputation = DefaultReputation;
+}
+
+
+
+
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
@@ -293,6 +363,10 @@ construct_runtime!(
 		Sudo: pallet_sudo,
 		// Include the custom logic from the pallet-template in the runtime.
 		TemplateModule: pallet_template,
+		ModerationModule: pallet_moderation,
+		MovieModule: pallet_movie,
+		// RankingListModule: pallet_ranking_list,
+		StatTrackerModule: pallet_stat_tracker,
 	}
 );
 
